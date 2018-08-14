@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  ParamUserPoolName:
+    Description: User pool name
+    Type: String
+Resources:
+  CognitoUserPool:
+    Type: "AWS::Cognito::UserPool"
+    Properties:
+      UserPoolName: !Ref ParamUserPoolName
+      # AliasAttributes: [ 'email' ]
+      UsernameAttributes: [ 'email' ]
+  CognitoUserPoolClient:
+    Type: "AWS::Cognito::UserPoolClient"
+    Properties:
+      ClientName: !Join ['-', [!Ref ParamUserPoolName, 'client']]
+      UserPoolId: !Ref CognitoUserPool
+      ExplicitAuthFlows: ['ADMIN_NO_SRP_AUTH']
+      GenerateSecret: false
+Outputs:
+  OutUserPoolId:
+    Description: User pool id
+    Value: !Ref CognitoUserPool
+  OutUserPoolArn:
+    Description: User pool ARN
+    Value: !GetAtt CognitoUserPool.Arn
+  OutUserClientId:
+    Description: User client id
+    Value: !Ref CognitoUserPoolClient

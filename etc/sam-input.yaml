@@ -1,0 +1,89 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Parameters:
+  ParamDDBRole:
+    Type: String
+Resources:
+  LambdaHello:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: hello.apig_hello
+      Role: !Ref ParamDDBRole
+      Runtime: python2.7
+      CodeUri: ../src
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: get
+  LambdaCreate:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: create.apig_create
+      Role: !Ref ParamDDBRole
+      Runtime: python2.7
+      CodeUri: ../src
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /create
+            Method: post
+  LambdaGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: get.apig_get
+      Role: !Ref ParamDDBRole
+      Runtime: python2.7
+      CodeUri: ../src
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /get
+            Method: get
+  LambdaList:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: list.apig_list
+      Role: !Ref ParamDDBRole
+      Runtime: python2.7
+      CodeUri: ../src
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /list
+            Method: get
+  LambdaUpdate:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: update.apig_update
+      Role: !Ref ParamDDBRole
+      Runtime: python2.7
+      CodeUri: ../src
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /update
+            Method: post
+#  ApiGwHello:
+#    Type: AWS::Serverless::Api
+#    Properties:
+#      StageName: dev
+#      DefinitionBody:
+#        swagger: 2.0
+#        info:
+#          title:
+#            Ref: AWS::StackName
+#        paths:
+#          "/hello":
+#            get:
+#              x-amazon-apigateway-integration:
+#                httpMethod: GET
+#                type: aws_proxy
+#                uri:
+#                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaHello.Arn}/invocations
+#              responses: {}

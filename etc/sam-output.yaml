@@ -1,0 +1,76 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  ParamDDBRole:
+    Type: String
+Resources:
+  LambdaCreate:
+    Properties:
+      CodeUri: s3://higs-serverless/e90884599a2ddbd681fa1ee8796ec19d
+      Events:
+        GetResource:
+          Properties:
+            Method: post
+            Path: /create
+          Type: Api
+      Handler: create.apig_create
+      Role:
+        Ref: ParamDDBRole
+      Runtime: python2.7
+    Type: AWS::Serverless::Function
+  LambdaGet:
+    Properties:
+      CodeUri: s3://higs-serverless/e90884599a2ddbd681fa1ee8796ec19d
+      Events:
+        GetResource:
+          Properties:
+            Method: get
+            Path: /get
+          Type: Api
+      Handler: get.apig_get
+      Role:
+        Ref: ParamDDBRole
+      Runtime: python2.7
+    Type: AWS::Serverless::Function
+  LambdaHello:
+    Properties:
+      CodeUri: s3://higs-serverless/e90884599a2ddbd681fa1ee8796ec19d
+      Events:
+        GetResource:
+          Properties:
+            Method: get
+            Path: /hello
+          Type: Api
+      Handler: hello.apig_hello
+      Role:
+        Ref: ParamDDBRole
+      Runtime: python2.7
+    Type: AWS::Serverless::Function
+  LambdaList:
+    Properties:
+      CodeUri: s3://higs-serverless/e90884599a2ddbd681fa1ee8796ec19d
+      Events:
+        GetResource:
+          Properties:
+            Method: get
+            Path: /list
+          Type: Api
+      Handler: list.apig_list
+      Role:
+        Ref: ParamDDBRole
+      Runtime: python2.7
+    Type: AWS::Serverless::Function
+  LambdaUpdate:
+    Properties:
+      CodeUri: s3://higs-serverless/e90884599a2ddbd681fa1ee8796ec19d
+      Events:
+        GetResource:
+          Properties:
+            Method: post
+            Path: /update
+          Type: Api
+      Handler: update.apig_update
+      Role:
+        Ref: ParamDDBRole
+      Runtime: python2.7
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31

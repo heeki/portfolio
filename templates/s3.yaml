@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  ParamBucketName:
+    Description: S3 bucket name
+    Type: String
+Resources:
+  S3Bucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: !Ref ParamBucketName
+      CorsConfiguration:
+        CorsRules:
+          - Id: CorsRule1
+            AllowedHeaders: ['*']
+            AllowedMethods: ['GET', 'PUT', 'POST', 'HEAD']
+            AllowedOrigins: ['*']
+            MaxAge: '3000'
+Outputs:
+  OutBucketArn:
+    Description: S3 bucket ARN
+    Value: !GetAtt S3Bucket.Arn
